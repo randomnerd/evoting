@@ -1,0 +1,252 @@
+{
+  "dependencies": {
+    "ethereumjs-tx": {
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/ethereumjs-tx/-/ethereumjs-tx-1.1.1.tgz",
+      "from": "ethereumjs-tx@1.1.1",
+      "dependencies": {
+        "ethereum-common": {
+          "version": "0.0.17",
+          "resolved": "https://registry.npmjs.org/ethereum-common/-/ethereum-common-0.0.17.tgz",
+          "from": "ethereum-common@0.0.17"
+        }
+      }
+    },
+    "ethereumjs-util": {
+      "version": "4.1.0",
+      "resolved": "https://registry.npmjs.org/ethereumjs-util/-/ethereumjs-util-4.1.0.tgz",
+      "from": "ethereumjs-util@4.1.0",
+      "dependencies": {
+        "bn.js": {
+          "version": "4.11.0",
+          "resolved": "https://registry.npmjs.org/bn.js/-/bn.js-4.11.0.tgz",
+          "from": "bn.js@4.11.0"
+        },
+        "keccakjs": {
+          "version": "0.1.0",
+          "resolved": "https://registry.npmjs.org/keccakjs/-/keccakjs-0.1.0.tgz",
+          "from": "keccakjs@0.1.0",
+          "dependencies": {
+            "browserify-sha3": {
+              "version": "0.0.1",
+              "resolved": "https://registry.npmjs.org/browserify-sha3/-/browserify-sha3-0.0.1.tgz",
+              "from": "browserify-sha3@0.0.1",
+              "dependencies": {
+                "js-sha3": {
+                  "version": "0.3.1",
+                  "resolved": "https://registry.npmjs.org/js-sha3/-/js-sha3-0.3.1.tgz",
+                  "from": "js-sha3@0.3.1"
+                }
+              }
+            },
+            "sha3": {
+              "version": "1.2.0",
+              "resolved": "https://registry.npmjs.org/sha3/-/sha3-1.2.0.tgz",
+              "from": "sha3@1.2.0",
+              "dependencies": {
+                "nan": {
+                  "version": "2.2.0",
+                  "resolved": "https://registry.npmjs.org/nan/-/nan-2.2.0.tgz",
+                  "from": "nan@2.2.0"
+                }
+              }
+            }
+          }
+        },
+        "rlp": {
+          "version": "2.0.0",
+          "resolved": "https://registry.npmjs.org/rlp/-/rlp-2.0.0.tgz",
+          "from": "rlp@2.0.0"
+        },
+        "secp256k1": {
+          "version": "3.0.1",
+          "resolved": "https://registry.npmjs.org/secp256k1/-/secp256k1-3.0.1.tgz",
+          "from": "secp256k1@3.0.1",
+          "dependencies": {
+            "bindings": {
+              "version": "1.2.1",
+              "resolved": "https://registry.npmjs.org/bindings/-/bindings-1.2.1.tgz",
+              "from": "bindings@1.2.1"
+            },
+            "drbg.js": {
+              "version": "1.0.1",
+              "resolved": "https://registry.npmjs.org/drbg.js/-/drbg.js-1.0.1.tgz",
+              "from": "drbg.js@1.0.1",
+              "dependencies": {
+                "browserify-aes": {
+                  "version": "1.0.6",
+                  "resolved": "https://registry.npmjs.org/browserify-aes/-/browserify-aes-1.0.6.tgz",
+                  "from": "browserify-aes@1.0.6",
+                  "dependencies": {
+                    "buffer-xor": {
+                      "version": "1.0.3",
+                      "resolved": "https://registry.npmjs.org/buffer-xor/-/buffer-xor-1.0.3.tgz",
+                      "from": "buffer-xor@1.0.3"
+                    },
+                    "cipher-base": {
+                      "version": "1.0.2",
+                      "resolved": "https://registry.npmjs.org/cipher-base/-/cipher-base-1.0.2.tgz",
+                      "from": "cipher-base@1.0.2"
+                    },
+                    "evp_bytestokey": {
+                      "version": "1.0.0",
+                      "resolved": "https://registry.npmjs.org/evp_bytestokey/-/evp_bytestokey-1.0.0.tgz",
+                      "from": "evp_bytestokey@1.0.0"
+                    },
+                    "inherits": {
+                      "version": "2.0.1",
+                      "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.1.tgz",
+                      "from": "inherits@2.0.1"
+                    }
+                  }
+                },
+                "create-hash": {
+                  "version": "1.1.2",
+                  "resolved": "https://registry.npmjs.org/create-hash/-/create-hash-1.1.2.tgz",
+                  "from": "create-hash@1.1.2",
+                  "dependencies": {
+                    "cipher-base": {
+                      "version": "1.0.2",
+                      "resolved": "https://registry.npmjs.org/cipher-base/-/cipher-base-1.0.2.tgz",
+                      "from": "cipher-base@1.0.2"
+                    },
+                    "inherits": {
+                      "version": "2.0.1",
+                      "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.1.tgz",
+                      "from": "inherits@2.0.1"
+                    },
+                    "ripemd160": {
+                      "version": "1.0.1",
+                      "resolved": "https://registry.npmjs.org/ripemd160/-/ripemd160-1.0.1.tgz",
+                      "from": "ripemd160@1.0.1"
+                    },
+                    "sha.js": {
+                      "version": "2.4.5",
+                      "resolved": "https://registry.npmjs.org/sha.js/-/sha.js-2.4.5.tgz",
+                      "from": "sha.js@2.4.5"
+                    }
+                  }
+                },
+                "create-hmac": {
+                  "version": "1.1.4",
+                  "resolved": "https://registry.npmjs.org/create-hmac/-/create-hmac-1.1.4.tgz",
+                  "from": "create-hmac@1.1.4",
+                  "dependencies": {
+                    "inherits": {
+                      "version": "2.0.1",
+                      "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.1.tgz",
+                      "from": "inherits@2.0.1"
+                    }
+                  }
+                }
+              }
+            },
+            "elliptic": {
+              "version": "6.2.3",
+              "resolved": "https://registry.npmjs.org/elliptic/-/elliptic-6.2.3.tgz",
+              "from": "elliptic@6.2.3",
+              "dependencies": {
+                "brorand": {
+                  "version": "1.0.5",
+                  "resolved": "https://registry.npmjs.org/brorand/-/brorand-1.0.5.tgz",
+                  "from": "brorand@1.0.5"
+                },
+                "hash.js": {
+                  "version": "1.0.3",
+                  "resolved": "https://registry.npmjs.org/hash.js/-/hash.js-1.0.3.tgz",
+                  "from": "hash.js@1.0.3"
+                },
+                "inherits": {
+                  "version": "2.0.1",
+                  "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.1.tgz",
+                  "from": "inherits@2.0.1"
+                }
+              }
+            },
+            "nan": {
+              "version": "2.2.0",
+              "resolved": "https://registry.npmjs.org/nan/-/nan-2.2.0.tgz",
+              "from": "nan@2.2.0"
+            }
+          }
+        }
+      }
+    },
+    "hooked-web3-provider": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/hooked-web3-provider/-/hooked-web3-provider-1.0.0.tgz",
+      "from": "hooked-web3-provider@1.0.0",
+      "dependencies": {
+        "web3": {
+          "version": "0.15.1",
+          "resolved": "https://registry.npmjs.org/web3/-/web3-0.15.1.tgz",
+          "from": "web3@0.15.1",
+          "dependencies": {
+            "bignumber.js": {
+              "version": "2.0.7",
+              "resolved": "git+https://github.com/debris/bignumber.js.git#94d7146671b9719e00a09c29b01a691bc85048c2",
+              "from": "bignumber.js@git+https://github.com/debris/bignumber.js#94d7146671b9719e00a09c29b01a691bc85048c2"
+            },
+            "crypto-js": {
+              "version": "3.1.6",
+              "resolved": "https://registry.npmjs.org/crypto-js/-/crypto-js-3.1.6.tgz",
+              "from": "crypto-js@3.1.6"
+            },
+            "utf8": {
+              "version": "2.1.1",
+              "resolved": "https://registry.npmjs.org/utf8/-/utf8-2.1.1.tgz",
+              "from": "utf8@2.1.1"
+            },
+            "xmlhttprequest": {
+              "version": "1.8.0",
+              "resolved": "https://registry.npmjs.org/xmlhttprequest/-/xmlhttprequest-1.8.0.tgz",
+              "from": "xmlhttprequest@1.8.0"
+            }
+          }
+        }
+      }
+    },
+    "lodash": {
+      "version": "4.6.1",
+      "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.6.1.tgz",
+      "from": "lodash@4.6.1"
+    },
+    "node-ethereumjs-keystore": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/node-ethereumjs-keystore/-/node-ethereumjs-keystore-1.0.2.tgz",
+      "from": "node-ethereumjs-keystore@1.0.2"
+    },
+    "solc": {
+      "version": "0.3.0-1",
+      "resolved": "https://registry.npmjs.org/solc/-/solc-0.3.0-1.tgz",
+      "from": "solc@0.3.0-1"
+    },
+    "web3": {
+      "version": "0.15.3",
+      "resolved": "https://registry.npmjs.org/web3/-/web3-0.15.3.tgz",
+      "from": "web3@0.15.3",
+      "dependencies": {
+        "bignumber.js": {
+          "version": "2.0.7",
+          "resolved": "git+https://github.com/debris/bignumber.js.git#94d7146671b9719e00a09c29b01a691bc85048c2",
+          "from": "bignumber.js@git+https://github.com/debris/bignumber.js#94d7146671b9719e00a09c29b01a691bc85048c2"
+        },
+        "crypto-js": {
+          "version": "3.1.6",
+          "resolved": "https://registry.npmjs.org/crypto-js/-/crypto-js-3.1.6.tgz",
+          "from": "crypto-js@3.1.6"
+        },
+        "utf8": {
+          "version": "2.1.1",
+          "resolved": "https://registry.npmjs.org/utf8/-/utf8-2.1.1.tgz",
+          "from": "utf8@2.1.1"
+        },
+        "xmlhttprequest": {
+          "version": "1.8.0",
+          "resolved": "https://registry.npmjs.org/xmlhttprequest/-/xmlhttprequest-1.8.0.tgz",
+          "from": "xmlhttprequest@1.8.0"
+        }
+      }
+    }
+  }
+}

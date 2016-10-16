@@ -1,0 +1,19 @@
+{
+  "name": "evoting",
+  "version": "0.1.0",
+  "main": "main.js",
+  "devDependencies": {
+    "concurrently": "^2.0.0",
+    "cross-env": "^1.0.7",
+    "electron-debug": "^0.5.2"
+  },
+  "scripts": {
+    "build-win": "cross-env NODE_ENV=production electron-packager --platform=win32 --arch=ia32 --version=0.37.2 --out=$HOME/Desktop/electron --overwrite --ignore=data --prune .",
+    "build-mac": "cross-env NODE_ENV=production electron-packager --platform=darwin --arch=x64 --version=0.37.2 --out=$HOME/Desktop/electron --overwrite --ignore=data --prune .",
+    "build": "concurrently --kill-others \"npm run build-win\" \"npm run build-mac\""
+  },
+  "devEngines": {
+    "node": "4.x || 5.x",
+    "npm": "2.x || 3.x"
+  }
+}

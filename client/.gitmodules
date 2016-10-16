@@ -1,0 +1,3 @@
+[submodule "app/modules/Blockchain/contracts"]
+	path = app/modules/Blockchain/contracts
+	url = git@github.com:randomnerd/evoting-blockchain.git
