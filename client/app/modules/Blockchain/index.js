@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import Promise from 'bluebird';
 import HookedProvider from 'hooked-web3-provider';
-import {copy, set, unset} from 'cerebral-addons';
-
+import copy from 'cerebral-addons/copy';
+import set from 'cerebral-addons/set';
 
 import Web3 from 'web3';
 import KeyStore from 'node-ethereumjs-keystore';
@@ -37,7 +37,7 @@ export const loadRegistry = [
   }
 ];
 export const loadKey = [ importKey, ...loadBallots ];
-export const showList = [ loadBallots, unset('state:/blockchain.selected'), set('blockchain.vote', false) ];
+export const showList = [ loadBallots, set('state:/blockchain.selected', null), set('blockchain.vote', false) ];
 export const choiceSet = [ copy('input:/choice', 'state:/blockchain.choice') ];
 export const ballotSelected = [ copy('input:/addr', 'state:/blockchain.selected'), ...loadRegistry ];
 export const voteSelected = [ set('blockchain.vote', true) ];

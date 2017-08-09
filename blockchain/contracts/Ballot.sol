@@ -1,7 +1,22 @@
-pragma solidity ^0.4.2;
+pragma solidity ^0.4.4;
 
-contract Ballot
-{
+
+contract Ballot {
+    enum Stages {
+        New,
+        Active,
+        Finalizing,
+        Finished
+    }
+
+    struct Voter {
+        address pubkey;
+        string  name;
+        uint    weight;
+        uint8   choice;
+        uint    votedAt;
+    }
+
     Stages  public stage;
     address public issuer;
     string  public name;
@@ -14,60 +29,48 @@ contract Ballot
     uint    public totalVoted;
     uint    public totalVotedWeight;
     bytes32[] public options;
-    Voter[] public registry;
-    uint    public numVoters;
-    mapping (address => uint) public indexByVoter;
+    address[] public votersIndex;
+    mapping (address => Voter) public voters;
     mapping (uint => uint) public choicesByOption;
     mapping (uint => uint) public weightByOption;
 
-    enum Stages
-    {
-        New,
-        Active,
-        Finalizing,
-        Finished
+    modifier onlyIssuer {
+        require(msg.sender == issuer);
+        _;
     }
 
-    struct Voter
-    {
-        address pubkey;
-        string  fullName;
-        uint    weight;
-        uint8   choice;
-        uint    votedAt;
+    modifier onlyVoter {
+        require(voters[msg.sender].pubkey == msg.sender);
+        _;
     }
 
-    modifier onlyIssuer
-    {
-        if (msg.sender == issuer) _;
+    modifier atStage(Stages _stage) {
+        require(stage == _stage);
+        _;
     }
 
-    modifier onlyVoter
-    {
-        if (indexByVoter[msg.sender] > 0) _;
-    }
-
-    modifier atStage(Stages _stage)
-    {
-        if (stage == _stage) _;
-    }
-
-  	function Ballot(address _issuer, string _name, string _question, string _description, bytes32[] _options, uint _startAt, uint _endAt)
-    {
-        issuer      = _issuer;
-        name        = _name;
-        question    = _question;
+    function Ballot(
+        address _issuer,
+        string _name,
+        string _question,
+        string _description,
+        bytes32[] _options,
+        uint _startAt,
+        uint _endAt
+    ) {
+        issuer = _issuer;
+        name = _name;
+        question = _question;
         description = _description;
-        options     = _options;
+        options = _options;
         totalVotedWeight = 0;
         totalWeight = 0;
-        totalVoted  = 0;
-        numVoters   = 0;
-        stage       = Stages.New;
-        createdAt   = now;
-        startAt     = _startAt;
-        endAt       = _endAt;
-  	}
+        totalVoted = 0;
+        stage = Stages.New;
+        createdAt = now;
+        startAt = _startAt;
+        endAt = _endAt;
+    }
 
     function getOptions() public constant
     returns (bytes32[])
@@ -75,42 +78,40 @@ contract Ballot
         return options;
     }
 
-    function addVoter(address _pubkey, string _name, uint _weight) public onlyIssuer atStage(Stages.New)
-    {
-        indexByVoter[_pubkey] = registry.length + 1;
-        registry.push(Voter(_pubkey, _name, _weight, 0x0, 0x0));
+    function addVoter(address _pubkey, string _name, uint _weight) public onlyIssuer atStage(Stages.New) returns (uint) {
+        require(voters[_pubkey].pubkey == address(0));
+        voters[_pubkey].name = _name;
+        voters[_pubkey].pubkey = _pubkey;
+        voters[_pubkey].weight = _weight;
         totalWeight += _weight;
-        numVoters += 1;
+        return votersIndex.push(_pubkey);
     }
 
-    function setChoice(uint8 _choice) public onlyVoter atStage(Stages.Active)
-    {
-        if (!this.canVote(msg.sender)) throw;
-        // stop if not in active stage
-        Voter v = registry[indexByVoter[msg.sender] - 1];
+    function numVoters() public constant returns (uint) {
+        return votersIndex.length;
+    }
+
+    function setChoice(uint8 _choice) public onlyVoter atStage(Stages.Active) {
         // stop if choice is out of bounds
-        if (_choice < 0 || _choice > options.length - 1) throw;
+        require(_choice >= 0 && _choice < options.length);
+        // stop if not in active stage
+        require(this.canVote(msg.sender));
 
-        v.choice = _choice;
-        v.votedAt = now;
+        voters[msg.sender].choice = _choice;
+        voters[msg.sender].votedAt = now;
         totalVoted += 1;
-        totalVotedWeight += v.weight;
+        totalVotedWeight += voters[msg.sender].weight;
         choicesByOption[_choice] += 1;
-        weightByOption[_choice] += v.weight;
+        weightByOption[_choice] += voters[msg.sender].weight;
     }
 
-    function getChoice() public constant onlyVoter atStage(Stages.Active)
-    returns (uint8)
-    {
-      Voter v = registry[indexByVoter[msg.sender] - 1];
-      return v.choice;
+    function getChoice() public constant onlyVoter atStage(Stages.Active) returns (uint8) {
+        return voters[msg.sender].choice;
     }
 
-    function setActive() public atStage(Stages.New) onlyIssuer
-    {
+    function setActive() public atStage(Stages.New) onlyIssuer {
         // no vote with less than two options or voters
-        if (options.length < 2) throw;
-        if (registry.length < 2) throw;
+        require(options.length >= 2 && votersIndex.length >= 2);
         /*//if (now > startAt) throw;*/
         stage = Stages.Active;
         StageChanged(this, stage);
@@ -122,36 +123,47 @@ contract Ballot
         return stage == Stages.Active;
     }
 
-    function canVote(address pubkey) public constant
+    function canVote(address _pubkey) public constant
     returns (bool)
     {
-        if (!isActive()) return false;
-        Voter v = registry[indexByVoter[pubkey] - 1];
-        if (v.weight < 1) return false;
-        if (v.votedAt > 0) return false;
+        if (voters[_pubkey].pubkey == address(0)) {
+            return false;
+        }
+        if (!isActive()) {
+            return false;
+        }
+        if (voters[_pubkey].weight < 1) {
+            return false;
+        }
+        if (voters[_pubkey].votedAt > 0) {
+            return false;
+        }
         return true;
+    }
+
+    function isVoter(address _pubkey) public constant returns (bool) {
+        return voters[_pubkey].pubkey == _pubkey;
     }
 
     function getInfo() public constant
     returns (
-      address _pubkey,
-      string _name,
-      string _description,
-      string _question,
-      bytes32[] _options,
-      uint _startAt,
-      uint _endAt,
-      Stages _stage
-    )
-    {
-      _pubkey = issuer;
-      _name = name;
-      _description = description;
-      _question = question;
-      _options = options;
-      _startAt = startAt;
-      _endAt = endAt;
-      _stage = stage;
+        address _pubkey,
+        string _name,
+        string _description,
+        string _question,
+        bytes32[] _options,
+        uint _startAt,
+        uint _endAt,
+        Stages _stage
+    ) {
+        _pubkey = issuer;
+        _name = name;
+        _description = description;
+        _question = question;
+        _options = options;
+        _startAt = startAt;
+        _endAt = endAt;
+        _stage = stage;
     }
 
     event StageChanged(address id, Stages newStage);

@@ -1,11 +1,11 @@
 import React from 'react';
-import { Decorator as Cerebral } from 'cerebral-view-react';
+import { connect } from 'cerebral-view-react';
 import moment from 'moment';
 
-@Cerebral({
-  choice: ['blockchain', 'choice']
-})
-export default class BallotView extends React.Component {
+export default connect({
+  choice: 'blockchain.choice'
+},
+class BallotResults extends React.Component {
   componentDidMount() {
     const signals = this.props.signals.blockchain;
     signals.loadRegistry();
@@ -91,4 +91,4 @@ export default class BallotView extends React.Component {
       </div>
     )
   }
-}
+});

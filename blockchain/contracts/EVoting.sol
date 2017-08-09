@@ -1,82 +1,79 @@
-pragma solidity ^0.4.2;
+pragma solidity ^0.4.4;
+import './Ballot.sol';
 
-import 'Ballot.sol';
 
-contract EVoting
-{
+contract EVoting {
     address public admin = msg.sender;
-    address[] public issuers;
-    string[] public issuerNames;
-    address[] public ballots;
-    mapping (address => uint) public indexByIssuer;
-    mapping (address => uint) public indexByBallot;
+    struct Issuer {
+        address pubkey;
+        string name;
+    }
+    address[] public issuersIndex;
+    address[] public ballotsIndex;
+    mapping (address => Issuer) public issuers;
+    mapping (address => Ballot) public ballots;
 
-    modifier onlyAdmin
-    {
-        if (admin == msg.sender) _;
+    modifier onlyAdmin {
+        require(admin == msg.sender);
+        _;
     }
 
-    modifier onlyIssuer
-    {
-        if (isSignedIssuer(msg.sender)) _;
+    modifier onlyIssuer {
+        require(isSignedIssuer(msg.sender));
+        _;
     }
 
-    function newIssuer(address id, string name) public onlyAdmin
-    {
-        indexByIssuer[id] = issuers.length + 1;
-        issuers.push(id);
-        issuerNames.push(name);
+    function newIssuer(address id, string name) public onlyAdmin {
+        require(issuers[id].pubkey == address(0));
+        issuersIndex.push(id);
+        issuers[id] = Issuer(id, name);
     }
 
-    function signBallot(address _pubkey) public onlyIssuer
-    {
+    function signBallot(address _pubkey) public onlyIssuer {
         Ballot b = Ballot(_pubkey);
-        if (b.issuer() != msg.sender) throw;
-        indexByBallot[b] = ballots.length + 1;
-        ballots.push(b);
+        require(b.issuer() == msg.sender);
+        ballots[_pubkey] = b;
+        ballotsIndex.push(_pubkey);
     }
 
     function isSignedIssuer(address id) public constant
     returns (bool)
     {
-        return 0x0 != id && indexByIssuer[id] > 0;
+        return id != address(0) && issuers[id].pubkey == id;
     }
 
     function isSignedBallot(address id) public constant
     returns (bool)
     {
-        return 0x0 != id && indexByBallot[id] > 0;
+        return id != address(0) && ballots[id].issuer() != address(0);
     }
 
     function getBallots(bool _all) public constant
     returns (address[])
     {
-        address[] memory _ballots = new address[](ballots.length);
+        address[] memory _ballots = new address[](ballotsIndex.length);
         uint i;
         uint count = 0;
-        for (i = 0; i < ballots.length; i++)
-        {
-            Ballot b = Ballot(ballots[i]);
+        for (i = 0; i < ballotsIndex.length; i++) {
+            Ballot b = Ballot(ballots[ballotsIndex[i]]);
             if (_all) {
-              if (b.indexByVoter(msg.sender) > 0) {
-                _ballots[i] = b;
-                count++;
-              }
+                if (b.isVoter(msg.sender)) {
+                    _ballots[i] = b;
+                    count++;
+                }
             } else {
-              if (b.canVote(msg.sender))
-              {
-                _ballots[i] = b;
-                count++;
-              }
+                if (b.canVote(msg.sender)) {
+                    _ballots[i] = b;
+                    count++;
+                }
             }
         }
         address[] memory _b = new address[](count);
         uint added = 0;
-        for (i = 0; i < ballots.length; i++)
-        {
+        for (i = 0; i < ballotsIndex.length; i++) {
             if (_ballots[i] != 0x0) {
-              _b[added] = _ballots[i];
-              added += 1;
+                _b[added] = _ballots[i];
+                added += 1;
             }
         }
         return _b;
@@ -85,6 +82,6 @@ contract EVoting
     function getIssuerName(address id) public constant
     returns (string)
     {
-        return issuerNames[indexByIssuer[id] - 1];
+        return issuers[id].name;
     }
 }

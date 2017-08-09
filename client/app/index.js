@@ -2,8 +2,8 @@ import $ from 'jquery';
 window.$ = window.jQuery = $;
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Controller from 'cerebral';
-import Model from 'cerebral-model-baobab';
+import {Controller} from 'cerebral';
+import Model from 'cerebral/models/immutable';
 import {Container} from 'cerebral-view-react';
 import Devtools from 'cerebral-module-devtools';
 

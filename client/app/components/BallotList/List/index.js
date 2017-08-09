@@ -1,12 +1,12 @@
 import _ from 'lodash';
 import React, { PropTypes } from 'react';
-import { Decorator as Cerebral, Link } from 'cerebral-view-react';
+import { connect } from 'cerebral-view-react';
 import moment from 'moment';
 
-@Cerebral({
-  ballots: ['blockchain', 'ballots']
-})
-export default class List extends React.Component {
+export default connect({
+  ballots: 'blockchain.ballots'
+},
+class BallotList extends React.Component {
   static propTypes = { ballots: PropTypes.object };
   getVote(adr){
     const signals = this.props.signals.blockchain;
@@ -81,4 +81,4 @@ export default class List extends React.Component {
 
     );
   }
-}
+});

@@ -1,10 +1,10 @@
 import React from 'react';
-import { Decorator as Cerebral } from 'cerebral-view-react';
+import { connect } from 'cerebral-view-react';
 
-@Cerebral({
-  secretKey: ['account', 'secretKey']
-})
-export default class BallotView extends React.Component {
+export default connect({
+  secretKey: 'account.secretKey'
+},
+class BallotView extends React.Component {
   importKey() {
     this.props.signals.blockchain.loadKey({secretKey: this.refs.secretKey.value});
   }
@@ -22,4 +22,4 @@ export default class BallotView extends React.Component {
       </div>
     )
   }
-}
+});

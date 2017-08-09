@@ -1,10 +1,10 @@
 import React from 'react';
-import { Decorator as Cerebral } from 'cerebral-view-react';
+import { connect } from 'cerebral-view-react';
 
-@Cerebral({
-  choice: ['blockchain', 'choice']
-})
-export default class BallotView extends React.Component {
+export default connect({
+  choice: 'blockchain.choice'
+},
+class BallotVoting extends React.Component {
   shouldComponentUpdate(nextProps) {
     return true;
     return nextProps.ballot !== this.props.ballot;
@@ -42,7 +42,7 @@ export default class BallotView extends React.Component {
     const {ballot, choice} = this.props;
     const signals = this.props.signals.blockchain;
 
-  
+
     return (
       <div>
         <h1 className="ui header">Голосование</h1>
@@ -71,4 +71,4 @@ export default class BallotView extends React.Component {
       </div>
     )
   }
-}
+});
