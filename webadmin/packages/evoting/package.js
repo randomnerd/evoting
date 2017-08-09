@@ -7,12 +7,10 @@ Package.describe({
 });
 
 Npm.depends({
-  "ethereumjs-util": "4.1.0",
   "ethereumjs-tx": "1.1.1",
-  "web3": "0.15.3",
+  "web3": "0.20.1",
   "hooked-web3-provider": "1.0.0",
   "node-ethereumjs-keystore": "1.0.2",
-  "solc": "0.3.0-1",
   "lodash": "4.6.1"
 });
 
@@ -20,6 +18,6 @@ Package.onUse(function(api) {
   api.versionsFrom('1.0');
   api.use(['ecmascript', 'mongo', 'accounts-base'], 'server');
   api.export(['keyStore', 'EVoting', 'EVotingContract', 'BallotContract'], ['server']);
-  api.addAssets(['contracts/contracts.json'], 'server');
+  api.addAssets(['contracts.json'], 'server');
   api.addFiles('index.js', 'server');
 });

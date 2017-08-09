@@ -55,7 +55,7 @@ class BallotView extends React.Component {
       <div>
         <h1 className="ui header">Информация о голосовании</h1>
         <div className='field'>
-          <a className='ui blue labeled icon button'  onClick={signals.showList}>
+          <a className='ui blue labeled icon button'  onClick={() => signals.showList()}>
             <i className='arrow left icon' />
             Назад
           </a>
@@ -165,7 +165,7 @@ class BallotView extends React.Component {
             </div>
             :
             <div>
-              <a className='ui blue labeled icon button' onClick={signals.voteSelected}>
+              <a className='ui blue labeled icon button' onClick={() => signals.voteSelected()}>
                 <i className='checkmark box icon' />
                 Голосовать
               </a>

@@ -65,11 +65,11 @@ class BallotResults extends React.Component {
       <div>
         <h1 className="ui header">Информация о голосовании</h1>
         <div className='field'>
-          <a className='ui blue labeled icon button' onClick={signals.showList}>
+          <a className='ui blue labeled icon button' onClick={() => signals.showList()}>
             <i className='arrow left icon' />
             К списку собраний
           </a>
-          <a className='ui blue labeled icon button' onClick={signals.voteDeSelected}>
+          <a className='ui blue labeled icon button' onClick={() => signals.voteDeSelected()}>
             <i className='list left icon' />
             Информация о собрании
           </a>

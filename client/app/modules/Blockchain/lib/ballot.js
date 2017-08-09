@@ -30,15 +30,14 @@ export default class Ballot {
     };
   }
 
-  getRegistry(services, skip = 0, batch = 10) {
+  async getRegistry(services, skip = 0, batch = 10) {
     let ballot = Promise.promisifyAll(services.ballot.at(this.addr));
-    return ballot.numVotersAsync().then(numVoters => {
-      return Promise.map(new Array(batch), (item, idx) => {
-        return ballot.registryAsync(skip + idx);
-      }).then(registry => {
-        return registry.map(item => { return this.parseVoter(item); });
-      });
+    let numVoters = await ballot.numVotersAsync();
+    let registry = await Promise.map(new Array(batch), (item, idx) => {
+      return ballot.votersIndexAsync(skip + idx);
     });
+    let voters = await Promise.map(registry, (item) => ballot.votersAsync(item));
+    return voters.map(item => { return this.parseVoter(item); });
   }
 
 
@@ -69,11 +68,7 @@ export default class Ballot {
       return services.evoting.getIssuerNameAsync(this.issuer);
     }).then(name => {
       this.issuerName = name;
-      return ballot.indexByVoterAsync(myAddr);
-    }).then(idx => {
-      console.log('!!!', idx.toNumber());
-      if (idx.toNumber() < 1) return false;
-      else return ballot.registry(idx.toNumber() - 1);
+      return ballot.votersAsync(myAddr);
     }).then(item => {
       if (item) this.voterInfo = this.parseVoter(item);
     });

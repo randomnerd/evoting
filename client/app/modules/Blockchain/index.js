@@ -16,7 +16,7 @@ const provider = new HookedProvider({
   transaction_signer: keyStore
 });
 web3.setProvider(provider);
-const EVoting = EVotingContract.at(process.env.CONTRACT_ADDRESS || '0xc8cec6524b9e3cbced59aa7a582664723fdbef97');
+const EVoting = EVotingContract.at(process.env.CONTRACT_ADDRESS || '0x2B76B56CCeE5Fe7C0F070c71562593e451507B2E');
 
 import {logInputs, getBallots, resolveBallots, commitChoice, importKey, getRegistry, setRegistry} from './actions';
 
@@ -24,7 +24,7 @@ export const loadBallots = [
   getBallots, {
     success: [
       resolveBallots, {
-        success: [ logInputs, copy('input:/ballots', 'state:/blockchain.ballots') ],
+        success: [ logInputs, copy('input:ballots', 'state:blockchain.ballots') ],
         error: [logInputs]
     } ],
     error: [logInputs]
@@ -37,9 +37,9 @@ export const loadRegistry = [
   }
 ];
 export const loadKey = [ importKey, ...loadBallots ];
-export const showList = [ loadBallots, set('state:/blockchain.selected', null), set('blockchain.vote', false) ];
-export const choiceSet = [ copy('input:/choice', 'state:/blockchain.choice') ];
-export const ballotSelected = [ copy('input:/addr', 'state:/blockchain.selected'), ...loadRegistry ];
+export const showList = [ loadBallots, set('state:blockchain.selected', null), set('blockchain.vote', false) ];
+export const choiceSet = [ copy('input:choice', 'state:blockchain.choice') ];
+export const ballotSelected = [ copy('input:addr', 'state:blockchain.selected'), ...loadRegistry ];
 export const voteSelected = [ set('blockchain.vote', true) ];
 export const voteDeSelected = [ set('blockchain.vote', false) ];
 export const resultsSelected = [ set('blockchain.results', true) ];

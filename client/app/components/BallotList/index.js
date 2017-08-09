@@ -12,22 +12,19 @@ import Results from './Results';
 export default connect({
   account: 'account',
   vote: 'blockchain.vote',
-  results: 'blockchain.results'
+  results: 'blockchain.results',
+  selected: 'blockchain.selected',
+  ballots: 'blockchain.ballots'
 },
 class BallotList extends React.Component {
-  static propTypes = {
-    account: PropTypes.object,
-    selected: PropTypes.object,
-    vote: PropTypes.bool,
-    results: PropTypes.bool
-  };
-
   decideRender() {
-    if (!this.props.account) return <KeyImport/>;
-    if (this.props.selected) {
-      if (this.props.vote) return <Vote ballot={this.props.selected}/>;
-      else if (this.props.results) return <Results ballot={this.props.selected} />;
-      else return <Ballot ballot={this.props.selected}/>;
+    let {account, vote, results, selected, ballots} = this.props;
+    if (!account) return <KeyImport/>;
+    if (selected) {
+      let ballot = ballots[selected];
+      if (vote) return <Vote ballot={ballot}/>;
+      else if (results) return <Results ballot={ballot} />;
+      else return <Ballot ballot={ballot}/>;
     }
     return <List />;
   }

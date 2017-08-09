@@ -1,4 +1,0 @@
-http://build.ethdev.com/builds/Windows%20Go%20develop%20branch/Geth-Win64-latest.zip
-http://build.ethdev.com/builds/OSX%20Go%20develop%20branch/Mist-OSX-latest.dmg
-http://build.ethdev.com/builds/Linux%20Go%20develop%20deb%20i386-trusty/latest/
-

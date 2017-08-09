@@ -69,7 +69,6 @@ module.exports = {
     new webpack.optimize.DedupePlugin(),
     new webpack.PrefetchPlugin("react"),
     new webpack.PrefetchPlugin("react-dom"),
-    new webpack.PrefetchPlugin("react/lib/ReactComponentBrowserEnvironment"),
 
     new webpack.optimize.CommonsChunkPlugin({name: 'vendor', filename: 'vendor.js', minChunks: Infinity}),
     new webpack.DefinePlugin({

@@ -1,15 +1,13 @@
 // const Promise = Npm.require('bluebird');
 const HookedProvider = Npm.require('hooked-web3-provider');
 const Web3 = Npm.require('web3');
-const solc = Npm.require('solc');
-const utils = Npm.require('ethereumjs-util');
 const _ = Npm.require('lodash');
 const Transaction = Npm.require('ethereumjs-tx');
 const crypto = Npm.require('crypto');
 const KeyStore = Npm.require('node-ethereumjs-keystore');
 const fs = Npm.require('fs');
 const path = Npm.require('fs');
-contracts = JSON.parse(Assets.getText('contracts/contracts.json'));
+contracts = JSON.parse(Assets.getText('contracts.json'));
 
 web3 = new Web3();
 const EVotingContract = web3.eth.contract(contracts.EVoting.interface);
@@ -27,15 +25,7 @@ EVoting = null;
 if (process.env.CONTRACT_ADDRESS) {
   EVoting = EVotingContract.at(process.env.CONTRACT_ADDRESS);
 } else {
-  EVotingContract.new({
-    data: contracts.EVoting.bytecode,
-    from: keyStore.admin.address
-  }, (err, ret) => {
-    if (err) return console.log(err);
-    if (!ret.address) return;
-    console.log('CONTRACT_ADDRESS=' + ret.address);
-    EVoting = ret;
-  });
+  throw new Error('CONTRACT_ADDRESS not specified')
 }
 
 Accounts.onCreateUser((options, user) => {
@@ -49,7 +39,8 @@ Accounts.onCreateUser((options, user) => {
   Meteor.wrapAsync(web3.eth.sendTransaction)({
     to: key.address,
     from: keyStore.admin.address,
-    value: web3.toWei(100500, 'ether')
+    value: web3.toWei(100500, 'ether'),
+    nonce: web3.eth.getTransactionCount('0x'+keyStore.admin.address)
   });
   Meteor.wrapAsync(EVoting.newIssuer)(
     '0x' + key.address,
