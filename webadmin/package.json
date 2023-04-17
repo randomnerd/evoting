@@ -11,7 +11,7 @@
     "classnames": "^2.2.5",
     "formsy-react": "^0.18.1",
     "hooked-web3-provider": "^1.0.0",
-    "lodash": "^4.16.5",
+    "lodash": "^4.17.21",
     "meteor-node-stubs": "~0.2.3",
     "react": "^15.3.2",
     "react-addons-pure-render-mixin": "^15.3.2",
